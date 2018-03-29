@@ -18,11 +18,14 @@ import java.net.URL;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.osgi.service.datalocation.Location;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.cheatsheets.OpenCheatSheetAction;
+import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.osgi.service.prefs.BackingStoreException;
 
 public class CheatsheetStartup implements org.eclipse.ui.IStartup {
@@ -87,5 +90,9 @@ public class CheatsheetStartup implements org.eclipse.ui.IStartup {
 		} catch (BackingStoreException e) {
 			CheatsheetStartup.logError("Failure to flush preferences storage", e);
 		}
+	}
+	
+	public static IPersistentPreferenceStore getStore() {
+		return new ScopedPreferenceStore(ConfigurationScope.INSTANCE, CheatsheetStartup.PLUGIN_ID);
 	}
 }
